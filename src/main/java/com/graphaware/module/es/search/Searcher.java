@@ -37,6 +37,7 @@ import io.searchbox.indices.mapping.GetMapping;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.HttpHost;
 import org.neo4j.graphdb.*;
 import org.neo4j.logging.Log;
 
@@ -170,6 +171,9 @@ public class Searcher {
 
             LOG.info("Enabling Auth for ElasticSearch: " + authUser);
             clientConfigBuilder.credentialsProvider(customCredentialsProvider);
+
+            HttpHost targetHost = new HttpHost(uri);
+            clientConfigBuilder.setPreemptiveAuth(targetHost);
         }
 
         factory.setHttpClientConfig(clientConfigBuilder.build());
